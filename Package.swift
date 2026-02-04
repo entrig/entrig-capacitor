@@ -17,7 +17,8 @@ let package = Package(
             name: "EntrigPlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
-                .product(name: "Cordova", package: "capacitor-swift-pm")
+                .product(name: "Cordova", package: "capacitor-swift-pm"),
+                .product(name: "Entrig", package: "entrig-ios")
             ],
             path: "ios/Sources/EntrigPlugin"),
         .testTarget(

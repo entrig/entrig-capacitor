@@ -1,6 +1,6 @@
 {
-  "appId": "com.example.plugin",
-  "appName": "example-app",
+  "appId": "com.entrig.demo",
+  "appName": "entrig-demo",
   "webDir": "dist",
   "plugins": {
     "SplashScreen": {

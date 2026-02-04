@@ -1,27 +1,25 @@
 {
-  "name": "capacitor-app",
+  "name": "entrig-capacitor-example",
   "version": "1.0.0",
-  "description": "An Amazing Capacitor App",
+  "description": "Entrig Capacitor Plugin - Group Chat Example",
   "type": "module",
-  "keywords": [
-    "capacitor",
-    "mobile"
-  ],
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@capacitor/core": "latest",
-    "entrig-capacitor": "file:..",
     "@capacitor/ios": "8.0.0",
-    "@capacitor/android": "8.0.0"
+    "@capacitor/android": "8.0.0",
+    "@supabase/supabase-js": "^2.93.3",
+    "entrig-capacitor": "file:.."
   },
   "devDependencies": {
     "@capacitor/cli": "latest",
+    "typescript": "^5.9.3",
     "vite": "^5.4.2"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "entrig",
+  "license": "MIT"
 }
