@@ -1,14 +1,13 @@
 {
   "name": "@entrig/capacitor",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Push Notifications for Supabase",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "unpkg": "dist/plugin.js",
   "bin": {
-    "entrig-capacitor": "./bin/setup.js",
-    "entrig": "./bin/setup.js"
+    "entrig-capacitor": "./bin/setup.js"
   },
   "files": [
     "android/src/main/",
