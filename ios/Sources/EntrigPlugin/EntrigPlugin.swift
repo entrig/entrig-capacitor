@@ -1,7 +1,11 @@
 import Foundation
 import Capacitor
 import UserNotifications
-import EntrigSDK
+import class Entrig.Entrig
+import struct Entrig.EntrigConfig
+import struct Entrig.NotificationEvent
+import protocol Entrig.OnNotificationReceivedListener
+import protocol Entrig.OnNotificationClickListener
 
 @objc(EntrigPlugin)
 public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedListener, OnNotificationClickListener {
@@ -56,27 +60,29 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
     // MARK: - Plugin Methods
 
     @objc func `init`(_ call: CAPPluginCall) {
-        guard let apiKey = call.getString("apiKey"), !apiKey.isEmpty else {
-            call.reject("API key is required and cannot be empty")
+        let apiKey = call.getString("apiKey", "")
+        guard !apiKey.isEmpty else {
+            call.unavailable("API key is required and cannot be empty")
             return
         }
 
-        let handlePermission = call.getBool("handlePermission") ?? true
-        let showForegroundNotification = call.getBool("showForegroundNotification") ?? true
+        let handlePermission = call.getBool("handlePermission", true)
+        let showForegroundNotification = call.getBool("showForegroundNotification", true)
         let config = EntrigConfig(apiKey: apiKey, handlePermission: handlePermission, showForegroundNotification: showForegroundNotification)
 
         Entrig.configure(config: config) { success, error in
             if success {
                 call.resolve()
             } else {
-                call.reject(error ?? "Failed to initialize SDK")
+                call.unavailable(error ?? "Failed to initialize SDK")
             }
         }
     }
 
     @objc func register(_ call: CAPPluginCall) {
-        guard let userId = call.getString("userId"), !userId.isEmpty else {
-            call.reject("userId is required")
+        let userId = call.getString("userId", "")
+        guard !userId.isEmpty else {
+            call.unavailable("userId is required")
             return
         }
 
@@ -91,7 +97,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             if success {
                 call.resolve()
             } else {
-                call.reject(error ?? "Registration failed")
+                call.unavailable(error ?? "Registration failed")
             }
         }
     }
@@ -99,7 +105,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
     @objc func requestPermission(_ call: CAPPluginCall) {
         Entrig.requestPermission { granted, error in
             if let error = error {
-                call.reject(error.localizedDescription)
+                call.unavailable(error.localizedDescription)
             } else {
                 call.resolve(["granted": granted])
             }
@@ -111,7 +117,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             if success {
                 call.resolve()
             } else {
-                call.reject(error ?? "Unregistration failed")
+                call.unavailable(error ?? "Unregistration failed")
             }
         }
     }

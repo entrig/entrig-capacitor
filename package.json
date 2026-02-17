@@ -1,6 +1,6 @@
 {
   "name": "@entrig/capacitor",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Push Notifications for Supabase",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -16,8 +16,7 @@
     "dist/",
     "ios/Sources",
     "ios/Tests",
-    "Package.swift",
-    "EntrigCapacitor.podspec"
+    "Package.swift"
   ],
   "author": "entrig",
   "license": "MIT",
