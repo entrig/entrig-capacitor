@@ -32,6 +32,10 @@ class EntrigPlugin : Plugin() {
     }
 
     override fun load() {
+        // Set activity on SDK for foreground detection (lifecycle callbacks
+        // registered in initialize() won't fire for already-resumed activities)
+        bridge.activity?.let { Entrig.setActivity(it) }
+
         // Handle initial intent (app launched from notification tap)
         bridge.activity?.intent?.let { intent ->
             Entrig.handleIntent(intent)
@@ -56,9 +60,11 @@ class EntrigPlugin : Plugin() {
             return
         }
 
+        val showForegroundNotification = call.getBoolean("showForegroundNotification") ?: true
         val config = EntrigConfig(
             apiKey = apiKey,
-            handlePermission = false
+            handlePermission = false,
+            showForegroundNotification = showForegroundNotification
         )
 
         Entrig.initialize(context.applicationContext, config) { success, error ->
@@ -95,7 +101,7 @@ class EntrigPlugin : Plugin() {
 
     private fun doRegister(call: PluginCall) {
         val userId = call.getString("userId")!!
-        Entrig.register(userId, activity) { success, error ->
+        Entrig.register(userId, activity, "capacitor") { success, error ->
             if (success) {
                 call.resolve()
             } else {

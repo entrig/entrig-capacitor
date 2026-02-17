@@ -6,7 +6,7 @@ const path = require("path");
 const args = process.argv.slice(2);
 
 if (args.length < 2 || args[0] !== "setup" || args[1] !== "ios") {
-  console.log("Usage: npx entrig-capacitor setup ios");
+  console.log("Usage: npx @entrig/capacitor setup ios");
   process.exit(1);
 }
 

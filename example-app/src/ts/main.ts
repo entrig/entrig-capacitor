@@ -1,4 +1,4 @@
-import { Entrig } from 'entrig-capacitor';
+import { Entrig } from '@entrig/capacitor';
 import { supabase } from './supabase';
 import { route, startRouter, navigate } from './router';
 import { renderSignIn } from './auth';
@@ -16,7 +16,7 @@ async function initEntrig(): Promise<void> {
       return;
     }
 
-    await Entrig.init({ apiKey });
+    await Entrig.init({ apiKey, showForegroundNotification:false });
     entrigInitialized = true;
     console.log('Entrig initialized successfully');
 

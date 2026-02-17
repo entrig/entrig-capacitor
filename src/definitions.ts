@@ -3,6 +3,7 @@ import type { PluginListenerHandle } from '@capacitor/core';
 export interface EntrigConfig {
   apiKey: string;
   handlePermission?: boolean;
+  showForegroundNotification?: boolean;
 }
 
 export interface NotificationEvent {

@@ -86,7 +86,7 @@ Send push notifications to your Capacitor app, triggered by database events.
 ## Installation
 
 ```bash
-npm install entrig-capacitor
+npm install @entrig/capacitor
 npx cap sync
 ```
 
@@ -105,7 +105,7 @@ No setup required for Android. We'll take care of it.
 Run this command in your project root:
 
 ```bash
-npx entrig-capacitor setup ios
+npx @entrig/capacitor setup ios
 ```
 
 This automatically configures:
@@ -114,6 +114,22 @@ This automatically configures:
 - Info.plist with background modes
 
 > **Note:** The command creates `.backup` files for safety. You can delete them after verifying everything works.
+
+<details>
+<summary>Troubleshooting pod install issues (click to expand)</summary>
+
+If you encounter CocoaPods dependency errors, try cleaning and updating:
+
+```bash
+cd ios
+rm Podfile.lock
+rm -rf Pods
+pod deintegrate
+pod repo update
+pod install
+```
+
+</details>
 
 <details>
 <summary>Notification Service Extension (Optional - for Delivery Tracking)</summary>
@@ -201,7 +217,7 @@ func application(_ application: UIApplication,
 ### Initialize
 
 ```typescript
-import { Entrig } from 'entrig-capacitor';
+import { Entrig } from '@entrig/capacitor';
 
 // Initialize Entrig
 await Entrig.init({ apiKey: 'YOUR_ENTRIG_API_KEY' });
@@ -237,7 +253,7 @@ await Entrig.unregister();
 **Example with Supabase Auth:**
 
 ```typescript
-import { Entrig } from 'entrig-capacitor';
+import { Entrig } from '@entrig/capacitor';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');

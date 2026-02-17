@@ -62,7 +62,8 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
         }
 
         let handlePermission = call.getBool("handlePermission") ?? true
-        let config = EntrigConfig(apiKey: apiKey, handlePermission: handlePermission)
+        let showForegroundNotification = call.getBool("showForegroundNotification") ?? true
+        let config = EntrigConfig(apiKey: apiKey, handlePermission: handlePermission, showForegroundNotification: showForegroundNotification)
 
         Entrig.configure(config: config) { success, error in
             if success {
@@ -79,7 +80,14 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             return
         }
 
-        Entrig.register(userId: userId, sdk: "capacitor") { success, error in
+        // Detect debug mode based on compilation flags
+        #if DEBUG
+        let isDebug = true
+        #else
+        let isDebug = false
+        #endif
+
+        Entrig.register(userId: userId, sdk: "capacitor", isDebug: isDebug) { success, error in
             if success {
                 call.resolve()
             } else {
@@ -147,12 +155,7 @@ extension EntrigPlugin: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         Entrig.willPresentNotification(notification)
-
-        if #available(iOS 14.0, *) {
-            completionHandler([.banner, .sound, .badge])
-        } else {
-            completionHandler([.alert, .sound, .badge])
-        }
+        completionHandler(Entrig.getPresentationOptions())
     }
 
     public func userNotificationCenter(

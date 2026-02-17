@@ -1,13 +1,14 @@
 {
-  "name": "entrig-capacitor",
-  "version": "0.0.1",
+  "name": "@entrig/capacitor",
+  "version": "0.0.1-dev",
   "description": "Push Notifications for Supabase",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "unpkg": "dist/plugin.js",
   "bin": {
-    "entrig-capacitor": "./bin/setup.js"
+    "entrig-capacitor": "./bin/setup.js",
+    "entrig": "./bin/setup.js"
   },
   "files": [
     "android/src/main/",
@@ -23,10 +24,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/entrig/entrig-capacitor.git"
+    "url": "git+https://github.com/entrig/capacitor.git"
   },
   "bugs": {
-    "url": "https://github.com/entrig/entrig-capacitor/issues"
+    "url": "https://github.com/entrig/capacitor/issues"
   },
   "keywords": [
     "capacitor",
