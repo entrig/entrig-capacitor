@@ -1,6 +1,6 @@
 {
   "name": "@entrig/capacitor",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Push Notifications for Supabase",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

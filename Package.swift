@@ -10,7 +10,8 @@ let package = Package(
             targets: ["EntrigPlugin"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0")
+        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
+        .package(url: "https://github.com/entrig/entrig-ios.git", from: "0.0.1")
     ],
     targets: [
         .target(
