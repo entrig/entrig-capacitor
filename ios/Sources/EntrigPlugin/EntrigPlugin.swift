@@ -95,15 +95,12 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
 
         // Use caller-provided isDebug if present, otherwise fall back to compile-time flag
         let isDebug: Bool
-        if let isDebugOverride = call.getBool("isDebug") {
-            isDebug = isDebugOverride
-        } else {
-            #if DEBUG
-            isDebug = true
-            #else
-            isDebug = false
-            #endif
-        }
+        #if DEBUG
+        let defaultDebug = true
+        #else
+        let defaultDebug = false
+        #endif
+        isDebug = call.getBool("isDebug", defaultDebug)
 
         Entrig.register(userId: userId, sdk: "capacitor", isDebug: isDebug) { success, error in
             if success {

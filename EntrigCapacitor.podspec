@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Sources/**/*.swift'
 
   s.dependency 'Capacitor'
-  s.dependency 'EntrigSDK'
+  s.dependency 'EntrigSDK', '1.0.0'
 end
