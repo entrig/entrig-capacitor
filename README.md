@@ -116,7 +116,7 @@ This automatically configures:
 > **Note:** The command creates `.backup` files for safety. You can delete them after verifying everything works.
 
 <details>
-<summary>Troubleshooting pod install issues (click to expand)</summary>
+<summary>Troubleshooting CocoaPods issues (click to expand)</summary>
 
 If you encounter CocoaPods dependency errors, try cleaning and updating:
 
@@ -127,6 +127,31 @@ rm -rf Pods
 pod deintegrate
 pod repo update
 pod install
+```
+
+</details>
+
+<details>
+<summary>Troubleshooting SPM / Xcode build issues (click to expand)</summary>
+
+If you encounter build errors after adding the plugin (e.g., `Cannot convert value of type 'NSUserActivity'`, missing methods on `CAPPluginCall`, or unresolved module errors), try resetting the SPM package cache:
+
+1. Open your Xcode project (`ios/App/App.xcworkspace`)
+2. **File → Packages → Reset Package Caches**
+3. **File → Packages → Resolve Package Versions**
+4. **Product → Clean Build Folder** (Cmd+Shift+K)
+5. Build again (Cmd+B)
+
+If you see `Cannot convert value of type 'NSUserActivity' to expected argument type 'URL'` in `AppDelegate.swift`, this is a known Capacitor 8 SPM issue. Replace:
+
+```swift
+return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+```
+
+with:
+
+```swift
+return true
 ```
 
 </details>

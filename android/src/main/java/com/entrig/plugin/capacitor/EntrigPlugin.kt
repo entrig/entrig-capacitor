@@ -42,12 +42,12 @@ class EntrigPlugin : Plugin() {
         }
 
         Entrig.setOnForegroundNotificationListener { notification ->
-            Log.d(TAG, "Foreground notification: ${notification.toMap()}")
+            Log.d(TAG, "Foreground notification received")
             notifyListeners("onForegroundNotification", notification.toJSObject(isForeground = true))
         }
 
         Entrig.setOnNotificationOpenedListener { notification ->
-            Log.d(TAG, "Notification opened: ${notification.toMap()}")
+            Log.d(TAG, "Notification opened")
             notifyListeners("onNotificationOpened", notification.toJSObject(isForeground = false))
         }
     }
@@ -83,6 +83,8 @@ class EntrigPlugin : Plugin() {
             call.reject("userId is required")
             return
         }
+        // isDebug is accepted for API consistency but auto-detected by the Android SDK internally
+        // val isDebug = call.getBoolean("isDebug")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             getPermissionState("notifications") != PermissionState.GRANTED

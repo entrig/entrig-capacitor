@@ -1,11 +1,18 @@
 import Foundation
 import Capacitor
 import UserNotifications
+
+#if canImport(Entrig)
+// SPM - specific imports to avoid module/class name collision
 import class Entrig.Entrig
 import struct Entrig.EntrigConfig
 import struct Entrig.NotificationEvent
 import protocol Entrig.OnNotificationReceivedListener
 import protocol Entrig.OnNotificationClickListener
+#else
+// CocoaPods - module is EntrigSDK, no name collision
+import EntrigSDK
+#endif
 
 @objc(EntrigPlugin)
 public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedListener, OnNotificationClickListener {
@@ -86,12 +93,17 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             return
         }
 
-        // Detect debug mode based on compilation flags
-        #if DEBUG
-        let isDebug = true
-        #else
-        let isDebug = false
-        #endif
+        // Use caller-provided isDebug if present, otherwise fall back to compile-time flag
+        let isDebug: Bool
+        if let isDebugOverride = call.getBool("isDebug") {
+            isDebug = isDebugOverride
+        } else {
+            #if DEBUG
+            isDebug = true
+            #else
+            isDebug = false
+            #endif
+        }
 
         Entrig.register(userId: userId, sdk: "capacitor", isDebug: isDebug) { success, error in
             if success {

@@ -15,7 +15,7 @@ export interface NotificationEvent {
 
 export interface EntrigPlugin {
   init(config: EntrigConfig): Promise<void>;
-  register(options: { userId: string }): Promise<void>;
+  register(options: { userId: string; isDebug?: boolean }): Promise<void>;
   requestPermission(): Promise<{ granted: boolean }>;
   unregister(): Promise<void>;
   getInitialNotification(): Promise<NotificationEvent | null>;
