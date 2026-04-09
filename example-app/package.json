@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "8.0.0",
     "@capacitor/core": "latest",
     "@capacitor/ios": "8.0.0",
-    "@capacitor/android": "8.0.0",
-    "@supabase/supabase-js": "^2.93.3",
-    "@entrig/capacitor": "file:.."
+    "@entrig/capacitor": "1.0.1",
+    "@supabase/supabase-js": "^2.93.3"
   },
   "devDependencies": {
     "@capacitor/cli": "latest",

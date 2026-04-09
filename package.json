@@ -1,6 +1,6 @@
 {
   "name": "@entrig/capacitor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Push Notifications for Supabase",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -22,10 +22,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/entrig/capacitor.git"
+    "url": "git+https://github.com/entrig/entrig-capacitor.git"
   },
   "bugs": {
-    "url": "https://github.com/entrig/capacitor/issues"
+    "url": "https://github.com/entrig/entrig-capacitor/issues"
   },
   "keywords": [
     "capacitor",
