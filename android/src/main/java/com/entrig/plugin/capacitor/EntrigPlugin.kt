@@ -43,12 +43,12 @@ class EntrigPlugin : Plugin() {
 
         Entrig.setOnForegroundNotificationListener { notification ->
             Log.d(TAG, "Foreground notification received")
-            notifyListeners("onForegroundNotification", notification.toJSObject(isForeground = true))
+            notifyListeners("onForegroundNotification", notification.toJSObject())
         }
 
         Entrig.setOnNotificationOpenedListener { notification ->
             Log.d(TAG, "Notification opened")
-            notifyListeners("onNotificationOpened", notification.toJSObject(isForeground = false))
+            notifyListeners("onNotificationOpened", notification.toJSObject())
         }
     }
 
@@ -160,7 +160,7 @@ class EntrigPlugin : Plugin() {
         Entrig.handleIntent(intent)
     }
 
-    private fun NotificationEvent.toJSObject(isForeground: Boolean = false): JSObject {
+    private fun NotificationEvent.toJSObject(): JSObject {
         val obj = JSObject()
         obj.put("title", title)
         obj.put("body", body)
@@ -172,7 +172,6 @@ class EntrigPlugin : Plugin() {
             dataObj.put(key, value)
         }
         obj.put("data", dataObj)
-        obj.put("isForeground", isForeground)
         return obj
     }
 }

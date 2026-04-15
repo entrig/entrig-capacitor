@@ -155,8 +155,8 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
         return [
             "title": event.title,
             "body": event.body,
-            "data": event.data,
-            "isForeground": false
+            "type": event.type as Any,
+            "data": event.data
         ]
     }
 }

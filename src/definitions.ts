@@ -9,8 +9,8 @@ export interface EntrigConfig {
 export interface NotificationEvent {
   title: string;
   body: string;
+  type?: string | null;
   data: Record<string, any>;
-  isForeground: boolean;
 }
 
 export interface EntrigPlugin {
