@@ -60,7 +60,7 @@ class EntrigPlugin : Plugin() {
             return
         }
 
-        val showForegroundNotification = call.getBoolean("showForegroundNotification") ?: true
+        val showForegroundNotification = call.getBoolean("showForegroundNotification") ?: false
         val config = EntrigConfig(
             apiKey = apiKey,
             handlePermission = false,
@@ -103,7 +103,8 @@ class EntrigPlugin : Plugin() {
 
     private fun doRegister(call: PluginCall) {
         val userId = call.getString("userId")!!
-        Entrig.register(userId, activity, "capacitor") { success, error ->
+        val sdkVersion = call.getString("sdkVersion")
+        Entrig.register(userId, activity, "capacitor", sdkVersion) { success, error ->
             if (success) {
                 call.resolve()
             } else {

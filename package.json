@@ -1,6 +1,6 @@
 {
   "name": "@entrig/capacitor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Push Notifications for Supabase",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -41,13 +41,14 @@
     "verify:ios": "xcodebuild -scheme EntrigCapacitor -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
+    "sync-version": "node ./scripts/sync-version.mjs",
     "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
     "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api EntrigPlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
+    "build": "npm run clean && npm run sync-version && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"

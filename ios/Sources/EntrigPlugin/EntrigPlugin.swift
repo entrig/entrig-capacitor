@@ -74,7 +74,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
         }
 
         let handlePermission = call.getBool("handlePermission", true)
-        let showForegroundNotification = call.getBool("showForegroundNotification", true)
+        let showForegroundNotification = call.getBool("showForegroundNotification", false)
         let config = EntrigConfig(apiKey: apiKey, handlePermission: handlePermission, showForegroundNotification: showForegroundNotification)
 
         Entrig.configure(config: config) { success, error in
@@ -92,6 +92,8 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             call.unavailable("userId is required")
             return
         }
+        let sdkVersionValue = call.getString("sdkVersion", "")
+        let sdkVersion = sdkVersionValue.isEmpty ? nil : sdkVersionValue
 
         // Use caller-provided isDebug if present, otherwise fall back to compile-time flag
         let isDebug: Bool
@@ -102,7 +104,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
         #endif
         isDebug = call.getBool("isDebug", defaultDebug)
 
-        Entrig.register(userId: userId, sdk: "capacitor", isDebug: isDebug) { success, error in
+        Entrig.register(userId: userId, sdk: "capacitor", sdkVersion: sdkVersion, isDebug: isDebug) { success, error in
             if success {
                 call.resolve()
             } else {

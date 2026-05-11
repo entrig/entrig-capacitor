@@ -7,7 +7,7 @@ export class EntrigWeb extends WebPlugin implements EntrigPlugin {
     console.warn('Entrig push notifications are not supported on web');
   }
 
-  async register(_options: { userId: string }): Promise<void> {
+  async register(_options: { userId: string; isDebug?: boolean; sdkVersion?: string }): Promise<void> {
     console.warn('Entrig push notifications are not supported on web');
   }
 

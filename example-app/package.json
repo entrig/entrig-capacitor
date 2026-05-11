@@ -12,7 +12,7 @@
     "@capacitor/android": "8.0.0",
     "@capacitor/core": "latest",
     "@capacitor/ios": "8.0.0",
-    "@entrig/capacitor": "1.0.1",
+    "@entrig/capacitor": "file:..",
     "@supabase/supabase-js": "^2.93.3"
   },
   "devDependencies": {
