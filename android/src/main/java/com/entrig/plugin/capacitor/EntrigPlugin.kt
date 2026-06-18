@@ -60,11 +60,14 @@ class EntrigPlugin : Plugin() {
             return
         }
 
+        val handlePermission = call.getBoolean("handlePermission") ?: true
         val showForegroundNotification = call.getBoolean("showForegroundNotification") ?: false
+        val autoOpenDeeplink = call.getBoolean("autoOpenDeeplink") ?: false
         val config = EntrigConfig(
             apiKey = apiKey,
-            handlePermission = false,
-            showForegroundNotification = showForegroundNotification
+            handlePermission = handlePermission,
+            showForegroundNotification = showForegroundNotification,
+            autoOpenDeeplink = autoOpenDeeplink
         )
 
         Entrig.initialize(context.applicationContext, config) { success, error ->
@@ -166,7 +169,7 @@ class EntrigPlugin : Plugin() {
         obj.put("title", title)
         obj.put("body", body)
         obj.put("type", type)
-        obj.put("deliveryId", deliveryId)
+        obj.put("deeplink", deeplink)
 
         val dataObj = JSObject()
         data?.forEach { (key, value) ->

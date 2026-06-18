@@ -4,12 +4,14 @@ export interface EntrigConfig {
   apiKey: string;
   handlePermission?: boolean;
   showForegroundNotification?: boolean;
+  autoOpenDeeplink?: boolean;
 }
 
 export interface NotificationEvent {
   title: string;
   body: string;
   type?: string | null;
+  deeplink?: string | null;
   data: Record<string, any>;
 }
 

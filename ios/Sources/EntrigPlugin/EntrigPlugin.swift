@@ -50,8 +50,21 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             object: nil
         )
 
-        // Check for launch notification (cold start)
-        Entrig.checkLaunchNotification(nil)
+        // load() is called during application(_:didFinishLaunchingWithOptions:) before it returns.
+        // UIApplication.didFinishLaunchingNotification fires after the method returns and carries
+        // the real launchOptions — the only reliable place to capture cold-start push notifications.
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidFinishLaunching(_:)),
+            name: UIApplication.didFinishLaunchingNotification,
+            object: nil
+        )
+    }
+
+    @objc private func handleApplicationDidFinishLaunching(_ notification: Notification) {
+        let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
+        Entrig.checkLaunchNotification(launchOptions)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didFinishLaunchingNotification, object: nil)
     }
 
     @objc private func handleDidRegisterForRemoteNotifications(_ notification: Notification) {
@@ -75,13 +88,14 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
 
         let handlePermission = call.getBool("handlePermission", true)
         let showForegroundNotification = call.getBool("showForegroundNotification", false)
-        let config = EntrigConfig(apiKey: apiKey, handlePermission: handlePermission, showForegroundNotification: showForegroundNotification)
+        let autoOpenDeeplink = call.getBool("autoOpenDeeplink", false)
+        let config = EntrigConfig(apiKey: apiKey, handlePermission: handlePermission, showForegroundNotification: showForegroundNotification, autoOpenDeeplink: autoOpenDeeplink)
 
         Entrig.configure(config: config) { success, error in
             if success {
                 call.resolve()
             } else {
-                call.unavailable(error ?? "Failed to initialize SDK")
+                call.reject(error ?? "Failed to initialize SDK", "INIT_ERROR")
             }
         }
     }
@@ -89,7 +103,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
     @objc func register(_ call: CAPPluginCall) {
         let userId = call.getString("userId", "")
         guard !userId.isEmpty else {
-            call.unavailable("userId is required")
+            call.reject("userId is required", "INVALID_ARGUMENTS")
             return
         }
         let sdkVersionValue = call.getString("sdkVersion", "")
@@ -108,7 +122,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             if success {
                 call.resolve()
             } else {
-                call.unavailable(error ?? "Registration failed")
+                call.reject(error ?? "Registration failed", "REGISTER_ERROR")
             }
         }
     }
@@ -116,7 +130,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
     @objc func requestPermission(_ call: CAPPluginCall) {
         Entrig.requestPermission { granted, error in
             if let error = error {
-                call.unavailable(error.localizedDescription)
+                call.reject(error.localizedDescription, "PERMISSION_ERROR")
             } else {
                 call.resolve(["granted": granted])
             }
@@ -128,7 +142,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             if success {
                 call.resolve()
             } else {
-                call.unavailable(error ?? "Unregistration failed")
+                call.reject(error ?? "Unregistration failed", "UNREGISTER_ERROR")
             }
         }
     }
@@ -158,6 +172,7 @@ public class EntrigPlugin: CAPPlugin, CAPBridgedPlugin, OnNotificationReceivedLi
             "title": event.title,
             "body": event.body,
             "type": event.type as Any,
+            "deeplink": event.deeplink as Any,
             "data": event.data
         ]
     }
@@ -180,7 +195,7 @@ extension EntrigPlugin: UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        Entrig.didReceiveNotification(response)
+        Entrig.didReceiveNotificationResponse(response)
         completionHandler()
     }
 }
